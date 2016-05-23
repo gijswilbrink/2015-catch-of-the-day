@@ -16,6 +16,10 @@ var h = require('./helpers');
  * App
  */
  var App = React.createClass({
+
+ 	/**
+ 	 * Get the initial app state
+ 	 */
  	getInitialState: function(){
  		return {
  			fishes : {},
@@ -23,33 +27,55 @@ var h = require('./helpers');
  		};
  	},
 
- 	addToOrder: function(key){
+	/**
+ 	 * Add fish to order
+ 	 */
+ 	addFishToOrder: function(key){
+ 		// 1. Set the state
  		this.state.order[key] = this.state.order[key] + 1 || 1;
+
+ 		// 2. Add the fish to the app state
  		this.setState({order: this.state.order});
  	},
 
- 	addFish: function(fish){
- 		// 1. Update the state object
+ 	/**
+ 	 * Add fish to state (to be able to show it in the menu)
+ 	 */
+ 	addFishToMenu: function(oFish){
+ 		// 1. Create a state key
  		var fishId = 'fish -' + (new Date()).getTime() + '-' + Math.floor((Math.random() * 100) + 1);
- 		this.state.fishes[fishId] = fish;
-
+ 		
  		// 2. Set the state
- 		this.setState({fishes: this.state.fishes});
+ 		this.state.fishes[fishId] = oFish;
 
  		// 3. Add the fish to the app state
+ 		this.setState({fishes: this.state.fishes});
  	},
 
+ 	/**
+ 	 * Load some sample data
+ 	 */
  	loadSamples: function() {
+ 		// Load sample fishes into state
  		this.setState({
  			fishes: require('./sample-fishes')
  		});
  	},
 
+	/**
+ 	 * Render one specific fish
+ 	 */
  	renderFish: function(key) {
+ 		// Init fish
  		var oFish = this.state.fishes[key];
+
+ 		// Render <Fish /> component
  		return <Fish key={key} index={key} details={oFish} />;
  	},
 
+ 	/**
+ 	 * Render the main app
+ 	 */
  	render: function() {
  		
  		return (<div className="catch-of-the-day">
