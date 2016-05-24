@@ -12,6 +12,10 @@ var createBrowserHistory = require('history/lib/createBrowserHistory');
 // Init helpers
 var h = require('./helpers');
 
+// Init firebase
+var Rebase = require('re-base');
+var base = Rebase.createClass('https://catch-of-the-day-ca551.firebaseio.com/');
+
 /**
  * App
  */
@@ -25,6 +29,16 @@ var h = require('./helpers');
  			fishes : {},
  			order : {}
  		};
+ 	},
+
+ 	/**
+ 	 * On load
+ 	 */
+ 	componentDidMount: function(){
+ 		base.syncState(this.props.params.storeId + '/fishes', {
+ 			context: this,
+ 			state: 'fishes'
+ 		});
  	},
 
 	/**
@@ -70,7 +84,7 @@ var h = require('./helpers');
  		var oFish = this.state.fishes[key];
 
  		// Render <Fish /> component
- 		return <Fish key={key} index={key} details={oFish} />;
+ 		return <Fish key={key} index={key} details={oFish} addToOrder={this.addFishToOrder} />;
  	},
 
  	/**
@@ -85,7 +99,7 @@ var h = require('./helpers');
  					{Object.keys(this.state.fishes).map(this.renderFish)}
  				</ul>
  			</div>
- 			<Order />
+ 			<Order fishes={this.state.fishes} order={this.state.order} />
  			<Inventory addFish={this.addFish} loadSamples={this.loadSamples} />
  		</div>);
  	}
@@ -99,7 +113,7 @@ var h = require('./helpers');
 var Fish = React.createClass({
 
 	onButtonClick: function(){
-
+		this.props.addToOrder(this.props.index);
 	},
 
 	render: function(){
@@ -196,8 +210,56 @@ var AddFishForm = React.createClass({
  */
  var Order = React.createClass({
 
+ 	renderOrderRow: function(key) {
+ 		// init
+ 		var oFish = this.props.fishes[key];
+ 		var count = this.props.order[key];
+
+ 		if(!oFish) {
+ 			return (
+ 				<li key={key}>Sorry, fish is no longer available!</li>
+ 			);
+ 		}
+
+ 		// render order row template
+ 		return (
+ 			<li key={key}>
+ 				{count}lbs
+ 				{oFish.name}
+ 				<span className="price">{h.formatPrice(count * oFish.price)}</span>
+ 			</li>
+ 		);
+ 	},
+
  	render: function() {
- 		return (<p>Order</p>);
+
+ 		// init
+ 		var orderIds = Object.keys(this.props.order);
+ 		var total = orderIds.reduce((prevTotal, key)=> {
+ 			var oFish = this.props.fishes[key];
+ 			var count = this.props.order[key];
+ 			var isAvailable = oFish && oFish.status === 'available';
+
+ 			if(oFish && isAvailable) { 
+ 				return prevTotal + (count * parseInt(oFish.price) || 0);
+ 			}
+
+ 			return prevTotal;
+ 		}, 0	);
+
+ 		// render template
+ 		return (
+ 			<div className="order-wrap">
+ 				<h2 className="order-title">Your Order</h2>
+ 				<ul className="order">
+ 					{orderIds.map(this.renderOrderRow)}
+ 					<li className="total">
+ 						<strong>Total:</strong>
+ 						{h.formatPrice(total)}
+ 					</li>
+ 				</ul>
+ 			</div>
+ 		);
  	}
  });
 
