@@ -100,7 +100,7 @@ var base = Rebase.createClass('https://catch-of-the-day-ca551.firebaseio.com/');
  				</ul>
  			</div>
  			<Order fishes={this.state.fishes} order={this.state.order} />
- 			<Inventory addFish={this.addFish} loadSamples={this.loadSamples} />
+ 			<Inventory addFishToMenu={this.addFishToMenu} loadSamples={this.loadSamples} />
  		</div>);
  	}
 
@@ -159,7 +159,7 @@ var AddFishForm = React.createClass({
 		};
 
 		// 3. Add the fish to the app state
-		this.props.addFish(oFish);
+		this.props.addFishToMenu(oFish);
 		this.refs.fishForm.reset();
 	},
 
