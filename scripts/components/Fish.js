@@ -1,8 +1,8 @@
 /**
  * Import framework
  */
-import React from 'react';
-import h from '../helpers';
+import React 	from 'react';
+import h 		from '../helpers';
 
 /**
  * Fish

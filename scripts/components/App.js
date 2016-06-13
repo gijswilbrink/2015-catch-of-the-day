@@ -1,16 +1,16 @@
 /**
  * Import framework
  */
-import React			from 'react';
+import React from 'react';
 
 /**
  * Import components
  */
-import Header 			from './Header';
-import Fish 			from './Fish';
-import Order 			from './Order';
-import Inventory 		from './Inventory';
-import Catalyst 		from 'react-catalyst';
+import Header 		from './Header';
+import Fish 		from './Fish';
+import Order 		from './Order';
+import Inventory 	from './Inventory';
+import Catalyst 	from 'react-catalyst';
 
 /**
  * Import firebase

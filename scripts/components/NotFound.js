@@ -1,7 +1,7 @@
 /**
  * Import framework
  */
-import React			from 'react';
+import React from 'react';
 
 /**
  * Not found
@@ -12,6 +12,7 @@ var NotFound = React.createClass({
  	render: function() {
  		return (<h1>Page not found!</h1>);
  	}
+
 });
 
 /**
