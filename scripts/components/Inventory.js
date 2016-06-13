@@ -1,12 +1,12 @@
 /**
  * Import framework
  */
-import React from 'react';
+import React			from 'react';
 
 /**
  * Import components
  */
-import AddFishForm from './AddFishForm';
+import AddFishForm		from './AddFishForm';
 
 /**
  * Inventory 

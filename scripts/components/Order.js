@@ -1,9 +1,9 @@
 /**
  * Import framework
  */
-import React from 'react';
-import CSSTransitionGroup from 'react-addons-css-transition-group';
-import h from '../helpers';
+import React 				from 'react';
+import CSSTransitionGroup	from 'react-addons-css-transition-group';
+import h 					from '../helpers';
 
 /**
  * Order

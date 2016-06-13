@@ -1,7 +1,7 @@
 /**
  * Import framework
  */
-import React from 'react';
+import React			from 'react';
 
 /**
  * Header 
