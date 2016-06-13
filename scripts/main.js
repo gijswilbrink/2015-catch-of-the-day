@@ -43,11 +43,13 @@ var Catalyst = require('react-catalyst');
  	 * On load
  	 */
  	componentDidMount: function(){
+ 		// Sync fishes state with firebase
  		base.syncState(this.props.params.storeId + '/fishes', {
  			context: this,
  			state: 'fishes'
  		});
 
+ 		// Sync order state with local storage
  		var savedOrderState = localStorage.getItem('order-' + this.props.params.storeId);
  		if(savedOrderState) {
  			// restore saved order state
@@ -157,6 +159,12 @@ var Catalyst = require('react-catalyst');
  * <Fish />
  */
 var Fish = React.createClass({
+	
+	propTypes: {
+ 		addToOrder: React.PropTypes.func.isRequired,
+ 		details: React.PropTypes.object.isRequired,
+ 		index: React.PropTypes.string.isRequired
+ 	},
 
 	onButtonClick: function(){
 		this.props.addToOrder(this.props.index);
@@ -190,6 +198,10 @@ var Fish = React.createClass({
  * @rendertag <AddFishForm />
  */
 var AddFishForm = React.createClass({
+
+	propTypes: {
+ 		addFishToMenu: React.PropTypes.func.isRequired
+ 	},
 
 	createFish: function(e) {
 		// 1. Init
@@ -231,6 +243,9 @@ var AddFishForm = React.createClass({
  * @rendertag  <Header />
  */
  var Header = React.createClass({
+ 	propTypes: {
+ 		tagline: React.PropTypes.string.isRequired
+ 	},
 
  	render: function() {
 
@@ -255,6 +270,12 @@ var AddFishForm = React.createClass({
  * @rendertag  <Order /> 
  */
  var Order = React.createClass({
+
+ 	propTypes: {
+ 		fishes: React.PropTypes.object.isRequired,
+ 		order: React.PropTypes.object.isRequired,
+ 		removeFishFromOrder: React.PropTypes.func.isRequired
+ 	},
 
  	renderOrderRow: function(key) {
  		// init
@@ -322,6 +343,14 @@ var AddFishForm = React.createClass({
  * @rendertag  <Inventory />
  */
  var Inventory = React.createClass({
+
+	propTypes: {
+ 		fishes: React.PropTypes.object.isRequired,
+ 		linkState: React.PropTypes.func.isRequired,
+ 		loadSamples: React.PropTypes.func.isRequired,
+ 		removeFish: React.PropTypes.func.isRequired,
+ 		addFishToMenu: React.PropTypes.func.isRequired
+ 	},
 
  	renderInventory: function(key){
  		// init
